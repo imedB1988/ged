@@ -2,13 +2,11 @@
     include '../../connectdb.php';
 
 if (isset($_POST['submit'])) {
-    $nom = $_POST['nom'];
-    $prenom = $_POST['prenom'];
-    $username = $_POST['username'];
-    $password = $_POST['password'];
-    $id_role = $_POST['id_role'];
+    $nom = $_POST['titre_dossier'];
+    $id_theme = $_POST['id_theme'];
+   
 
-    $insert = "INSERT INTO user (nom, prenom, username, password, id_role) VALUES ('$nom', '$prenom', '$username', '$password','$id_role')";
+    $insert = "INSERT INTO dossier (titre_dossier, id_theme) VALUES ('$nom','$id_theme')";
     if (mysqli_query($conn, $insert)) {
         echo "New record created successfully!";
     } else {

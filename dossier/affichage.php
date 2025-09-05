@@ -42,11 +42,11 @@ $result = mysqli_query($conn, $sql);
                 echo "<tr>";
                 echo "<td>" . $row['dossierid'] . "</td>";
                 echo "<td>" . $row['titre_dossier'] . "</td>";
-                echo "<td>" . $row['id'] . "</td>";
                 echo "<td>" . $row['designation'] . "</td>";
+              
                 echo "<td>
-                        <a href='MAJ/edit.php?id=".$row['id']."'>Edit</a> | 
-                         <a href='suppression/delete.php?id=".$row['id']."' onclick=\"return confirm('Delete this record?')\">Delete</a>
+                        <a href='MAJ/edit.php?id=".$row['dossierid']."'>Edit</a> | 
+                         <a href='suppression/delete.php?id=".$row['dossierid']."' onclick=\"return confirm('Delete this record?')\">Delete</a>
 
                     </td>";
                 echo "</tr>";

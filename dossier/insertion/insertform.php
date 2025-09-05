@@ -2,30 +2,22 @@
 // Database connection
 include '../../connectdb.php';
 
-$sql = "SELECT id, nom_role FROM role";
+$sql = "SELECT id, designation FROM theme";
 $result = mysqli_query($conn, $sql);
 ?>
 
 <form action="insert.php" method="post">
-    <label for="nom">nom:</label>
-    <input type="text" name="nom" required>
+    <label for="titre_dossier">titre_dossier:</label>
+    <input type="text" name="titre_dossier" required>
 
-    <label for="prenom">prenom:</label>
-    <input type="text" name="prenom" required>
+   
 
-
-    <label for="username">username:</label>
-    <input type="text" name="username" required>
-
-     <label for="password">Password:</label>
-    <input type="text" name="password" required>
-
-    <label for="id_role">Role:</label>
-    <select name="id_role" required>
+    <label for="id_theme">Role:</label>
+    <select name="id_theme" required>
         <option value="">-- Select role --</option>
         <?php
         while ($row = mysqli_fetch_assoc($result)) {
-            echo "<option value='" . $row['id'] . "'>" . $row['nom_role'] . "</option>";
+            echo "<option value='" . $row['id'] . "'>" . $row['designation'] . "</option>";
         }
         ?>
     </select>
