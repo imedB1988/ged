@@ -5,7 +5,7 @@ include '../../connectdb.php';
 $sql = "SELECT id, titre_dossier, id_theme FROM dossier";
 $result = mysqli_query($conn, $sql);
 ?>
-
+    
 <form action="insert.php" method="post">
     <label for="titre">titre:</label>
     <input type="text" name="titre" required>
