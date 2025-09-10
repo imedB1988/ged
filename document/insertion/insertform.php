@@ -14,7 +14,9 @@ $result = mysqli_query($conn, $sql);
     <label for="date_edition">date d'edition:</label>
     <input type="date" name="date_edition" required>
 
-   
+    <label for="available">date d'edition:</label>
+    <input type="number" name="available" required>
+
 
     <label for="id_dossier">dossier:</label>
     <select name="id_dossier" required>

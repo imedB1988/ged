@@ -1,32 +1,24 @@
 <?php
-session_start();
 include 'connectdb.php';
 
-if(isset($_POST['register'])){
-    $username = mysqli_real_escape_string($conn, $_POST['username']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $role = $_POST['role']; // admin or user
+if (isset($_POST['register'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password']; // no hash
+    $role     = $_POST['role'];
 
-    // Check if email exists
-    $check = mysqli_query($conn, "SELECT * FROM users WHERE email='$email'");
-    if(mysqli_num_rows($check) > 0){
-        echo "Email already exists!";
+    $sql = "INSERT INTO users (username, password, role) VALUES ('$username', '$password', '$role')";
+
+    if (mysqli_query($conn, $sql)) {
+        echo "Registration successful. <a href='login.php'>Login</a>";
     } else {
-        $sql = "INSERT INTO users (username, email, password, role) VALUES ('$username', '$email', '$password', '$role')";
-        if(mysqli_query($conn, $sql)){
-            echo "Registration successful!";
-        } else {
-            echo "Error: ". mysqli_error($conn);
-        }
+        echo "Error: " . mysqli_error($conn);
     }
 }
 ?>
 
 <form method="post">
     Username: <input type="text" name="username" required><br>
-    Email: <input type="email" name="email" required><br>
-    Password: <input type="password" name="password" required><br>
+    Password: <input type="text" name="password" required><br>
     Role: 
     <select name="role">
         <option value="user">User</option>
@@ -34,3 +26,5 @@ if(isset($_POST['register'])){
     </select><br>
     <input type="submit" name="register" value="Register">
 </form>
+
+

@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'connectdb.php';
+include '../connectdb.php';
 
 if (isset($_POST['reset'])) {
     $username    = $_POST['username'];
