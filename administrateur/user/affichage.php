@@ -1,5 +1,5 @@
 <?php
-include('../connectdb.php');
+include('../..//connectdb.php');
 $search = $_GET['search'] ?? '';
 $safe = mysqli_real_escape_string($conn, $search);
 

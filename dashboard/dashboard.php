@@ -1,5 +1,32 @@
 <?php
 include 'displayadminname.php';
+
+// Déclaration d'une liste énumérée (tableau associatif)
+$titres = [
+    ["id" => 1, "titre" => "Themes"],
+    ["id" => 2, "titre" => "Dossiers"],
+    ["id" => 3, "titre" => "Documents"],
+    ["id" => 4, "titre" => "Utilisateurs"],
+    ["id" => 4, "titre" => "Emprunts"],
+   
+];
+
+$searchResult = null;
+$searchMade   = false;
+
+// Vérifier si l'utilisateur a fait une recherche
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    $searchMade = true;
+    $search = trim($_POST['search']);
+
+    // Rechercher dans le tableau
+    foreach ($titres as $row) {
+        if (strcasecmp($row['titre'], $search) === 0) { // insensible à la casse
+            $searchResult = $row;
+            break;
+        }
+    }
+}
 ?>
 <!doctype html>
 <html lang="en">
