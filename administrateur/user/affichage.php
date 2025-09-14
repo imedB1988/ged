@@ -1,12 +1,12 @@
 <?php
-include('../..//connectdb.php');
+include('../../connectdb.php');
 $search = $_GET['search'] ?? '';
 $safe = mysqli_real_escape_string($conn, $search);
 
 $sql = "
   SELECT user.id AS user_id,
-         user.nom AS user_nom,
-         user.prenom,
+         user.username AS user_nom,
+         user.email,
          role.id,
          role.nom_role
     FROM user

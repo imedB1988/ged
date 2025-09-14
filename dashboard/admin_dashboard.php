@@ -347,7 +347,7 @@ include 'displayadminname.php';
                 <div class="small-box text-bg-success">
                   <div class="inner">
                      <h3><?php 
-                            include '../connectdb.php';
+                           // include '../connectdb.php';
                             $sql = "SELECT COUNT(*) AS total FROM dossier";
                             $result = mysqli_query($conn, $sql);
 
@@ -386,7 +386,7 @@ include 'displayadminname.php';
                 <div class="small-box text-bg-danger">
                   <div class="inner">
                      <h3><?php 
-                            include '../connectdb.php';
+                          //  include '../connectdb.php';
                             $sql = "SELECT COUNT(*) AS total FROM document";
                             $result = mysqli_query($conn, $sql);
 
@@ -524,13 +524,7 @@ include 'displayadminname.php';
                   <div class="card-header">
                     <h3 class="card-title">Themes</h3>
                     <div class="card-tools">
-                      <ul class="pagination pagination-sm float-end">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                      </ul>
+                      <!-- search bar -->
                     </div>
                   </div>
                   <!-- /.card-header -->
@@ -539,58 +533,72 @@ include 'displayadminname.php';
                       <thead>
                         <tr>
                           <th style="width: 10px">#</th>
-                          <th>Task</th>
-                          <th>Progress</th>
-                          <th style="width: 40px">Label</th>
+                          <th>Theme</th>
+                         
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="align-middle">
-                          <td>1.</td>
-                          <td>Update software</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div
-                                class="progress-bar progress-bar-danger"
-                                style="width: 55%"
-                              ></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-danger">55%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>2.</td>
-                          <td>Clean database</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-warning">70%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>3.</td>
-                          <td>Cron job running</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-primary">30%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>4.</td>
-                          <td>Fix and squish bugs</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-success">90%</span></td>
-                        </tr>
+                        <!-- <tr class="align-middle"> -->
+                        <?php
+                        //include '../connectdb.php';
+                        // Number of records per page
+$limit = 3;
+
+// Get the current page number from URL, default = 1
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+
+// Calculate the starting record
+$offset = ($page - 1) * $limit;
+
+// Get total records
+$result_count = mysqli_query($conn, "SELECT COUNT(*) AS total FROM theme");
+$row_count = mysqli_fetch_assoc($result_count);
+$total_records = $row_count['total'];
+
+// Calculate total pages
+$total_pages = ceil($total_records / $limit);
+
+
+
+
+
+                        $sql = "SELECT theme.id, theme.designation FROM theme  LIMIT $offset, $limit";
+                        $result = mysqli_query($conn, $sql);
+                        
+        if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['id'] . "</td>";
+                echo "<td>" . $row['designation'] . "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='3'>No results found</td></tr>";
+        }
+        
+
+                        ?>
                       </tbody>
                     </table>
                   </div>
+                  <div class="pagination">
+    <?php
+    if ($page > 1) {
+        echo "<a  href='?page=".($page-1)."' class='page-link'>&laquo; Prev</a>";
+    }
+
+    for ($i = 1; $i <= $total_pages; $i++) {
+        $active = ($i == $page) ? "class=' page-link active'" : "";
+        echo "<a $active class='page-link' href='?page=$i'>$i</a>";
+    }
+
+    if ($page < $total_pages) {
+
+        echo "<a class='page-link' href='?page=".($page+1)."'>Next &raquo;</a>";
+    }
+    ?>
+</div>
                   <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
@@ -617,57 +625,72 @@ include 'displayadminname.php';
                       <thead>
                         <tr>
                           <th style="width: 10px">#</th>
-                          <th>Task</th>
-                          <th>Progress</th>
-                          <th style="width: 40px">Label</th>
+                          <th>Nom du dossier</th>
+                          <th>Theme</th>
+                
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="align-middle">
-                          <td>1.</td>
-                          <td>Update software</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div
-                                class="progress-bar progress-bar-danger"
-                                style="width: 55%"
-                              ></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-danger">55%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>2.</td>
-                          <td>Clean database</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-warning">70%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>3.</td>
-                          <td>Cron job running</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-primary">30%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>4.</td>
-                          <td>Fix and squish bugs</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-success">90%</span></td>
-                        </tr>
+                        <?php
+                        //include '../connectdb.php';
+
+                      
+                        //include '../connectdb.php';
+                        // Number of records per page
+$limit = 3;
+
+// Get the current page number from URL, default = 1
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+
+// Calculate the starting record
+$offset = ($page - 1) * $limit;
+
+// Get total records
+$result_count = mysqli_query($conn, "SELECT COUNT(*) AS total FROM dossier");
+$row_count = mysqli_fetch_assoc($result_count);
+$total_records = $row_count['total'];
+
+// Calculate total pages
+$total_pages = ceil($total_records / $limit);
+
+
+                        $sql = "SELECT dossier.id AS dossierid, dossier.titre_dossier, dossier.id_theme, theme.id, theme.designation
+                        FROM dossier 
+                        join theme
+                        on dossier.id_theme=theme.id
+                        LIMIT $offset, $limit";
+                        $result = mysqli_query($conn, $sql);
+                         if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['dossierid'] . "</td>";
+                echo "<td>" . $row['titre_dossier'] . "</td>";
+                echo "<td>" . $row['designation'] . "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='3'>No results found</td></tr>";
+        }
+                        ?>
                       </tbody>
                     </table>
+                    <div class="pagination">
+    <?php
+    if ($page > 1) {
+        echo "<a href='?page=".($page-1)."'>&laquo; Prev</a>";
+    }
+
+    for ($i = 1; $i <= $total_pages; $i++) {
+        $active = ($i == $page) ? "class='active'" : "";
+        echo "<a $active href='?page=$i'>$i</a>";
+    }
+
+    if ($page < $total_pages) {
+        echo "<a href='?page=".($page+1)."'>Next &raquo;</a>";
+    }
+    ?>
+</div>
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -699,59 +722,78 @@ include 'displayadminname.php';
                       <thead>
                         <tr>
                           <th style="width: 10px">#</th>
-                          <th>Task</th>
-                          <th>Progress</th>
-                          <th style="width: 40px">Label</th>
+                          <th>Document</th>
+                          <th>Dossier</th>
+                          <th>Theme</th>
+                          <th>Date d'Edition</th>
+                          <th>Disponibilité</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="align-middle">
-                          <td>1.</td>
-                          <td>Update software</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div
-                                class="progress-bar progress-bar-danger"
-                                style="width: 55%"
-                              ></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-danger">55%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>2.</td>
-                          <td>Clean database</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-warning">70%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>3.</td>
-                          <td>Cron job running</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-primary">30%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>4.</td>
-                          <td>Fix and squish bugs</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-success">90%</span></td>
-                        </tr>
+                       <?php
+                       //include "../connectdb.php";
+                       $limit = 3;
+
+// Get the current page number from URL, default = 1
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+
+// Calculate the starting record
+$offset = ($page - 1) * $limit;
+
+// Get total records
+$result_count = mysqli_query($conn, "SELECT COUNT(*) AS total FROM document");
+$row_count = mysqli_fetch_assoc($result_count);
+$total_records = $row_count['total'];
+
+// Calculate total pages
+$total_pages = ceil($total_records / $limit);
+
+
+                       $sql = "SELECT document.id AS documentid, 
+                       document.titre, document.date_edition, dossier.titre_dossier, theme.designation, document.disponible
+FROM document 
+join dossier on document.id_dossier=dossier.id
+join theme on theme.id=dossier.id_theme
+LIMIT $offset, $limit";
+$result = mysqli_query($conn, $sql);
+ if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['documentid'] . "</td>";
+                echo "<td>" . $row['titre'] . "</td>";
+                echo "<td>" . $row['titre_dossier'] . "</td>";
+                echo "<td>" . $row['designation'] . "</td>";
+                 echo "<td>" . $row['date_edition'] . "</td>";
+               echo "<td>" . $row['disponible'] . "</td>";
+         
+               
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='3'>No results found</td></tr>";
+        }
+                       ?>
                       </tbody>
                     </table>
                   </div>
                   <!-- /.card-body -->
+                <div class="pagination">
+    <?php
+    if ($page > 1) {
+        echo "<a href='?page=".($page-1)."'>&laquo; Prev</a>";
+    }
+
+    for ($i = 1; $i <= $total_pages; $i++) {
+        $active = ($i == $page) ? "class='active'" : "";
+        echo "<a $active href='?page=$i'>$i</a>";
+    }
+
+    if ($page < $total_pages) {
+        echo "<a href='?page=".($page+1)."'>Next &raquo;</a>";
+    }
+    ?>
+</div>
                 </div>
                 <!-- /.card -->
                 
@@ -777,59 +819,40 @@ include 'displayadminname.php';
                       <thead>
                         <tr>
                           <th style="width: 10px">#</th>
-                          <th>Task</th>
-                          <th>Progress</th>
-                          <th style="width: 40px">Label</th>
+                          <th>Nom d'utilisateur</th>
+                          <th>Email</th>
+                          <th style="width: 40px">Role</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="align-middle">
-                          <td>1.</td>
-                          <td>Update software</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div
-                                class="progress-bar progress-bar-danger"
-                                style="width: 55%"
-                              ></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-danger">55%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>2.</td>
-                          <td>Clean database</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-warning">70%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>3.</td>
-                          <td>Cron job running</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-primary">30%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>4.</td>
-                          <td>Fix and squish bugs</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-success">90%</span></td>
-                        </tr>
+                      <?php
+                      //include '../connectdb.php';
+                      $sql = "
+  SELECT users.id AS user_id,
+         users.username AS user_nom,
+         users.email,
+        users.role
+    FROM users
+    
+    ORDER BY user_id ASC
+";
+$result = mysqli_query($conn, $sql);
+while ($row = mysqli_fetch_array($result)):
+                      ?>
+                       <tr>
+            <td><?= htmlentities($row['user_id']) ?></td>
+            <td><?= htmlentities($row['user_nom']) ?></td>
+            <td><?= htmlentities($row['email']) ?></td>
+            <td><?= htmlentities($row['role']) ?></td>
+           
+           
+        </tr>
+        <?php endwhile; ?>
                       </tbody>
                     </table>
                   </div>
                   <!-- /.card-body -->
+                   
                 </div>
                 <!-- /.card -->
                 
@@ -860,55 +883,33 @@ include 'displayadminname.php';
                       <thead>
                         <tr>
                           <th style="width: 10px">#</th>
-                          <th>Task</th>
-                          <th>Progress</th>
-                          <th style="width: 40px">Label</th>
+                          <th style="width: 40px">Utilisateur</th>
+                          <th style="width: 40px">Document</th>
+                          <th style="width: 40px">Date Emprunt</th>
+                          <th style="width: 40px">Date Retour</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr class="align-middle">
-                          <td>1.</td>
-                          <td>Update software</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div
-                                class="progress-bar progress-bar-danger"
-                                style="width: 55%"
-                              ></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-danger">55%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>2.</td>
-                          <td>Clean database</td>
-                          <td>
-                            <div class="progress progress-xs">
-                              <div class="progress-bar text-bg-warning" style="width: 70%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-warning">70%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>3.</td>
-                          <td>Cron job running</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-primary" style="width: 30%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-primary">30%</span></td>
-                        </tr>
-                        <tr class="align-middle">
-                          <td>4.</td>
-                          <td>Fix and squish bugs</td>
-                          <td>
-                            <div class="progress progress-xs progress-striped active">
-                              <div class="progress-bar text-bg-success" style="width: 90%"></div>
-                            </div>
-                          </td>
-                          <td><span class="badge text-bg-success">90%</span></td>
-                        </tr>
+                      <?php
+                      $sql = "SELECT w.id AS workflowid, u.username, bo.titre, w.date_emprunt, w.date_retour
+        FROM workflow w
+        JOIN users u ON w.id_user = u.id
+        JOIN document bo ON w.id_document = bo.id";
+$result = mysqli_query($conn, $sql);
+                    if ($result && mysqli_num_rows($result) > 0) {
+            while ($row = mysqli_fetch_array($result)) {
+                echo "<tr>";
+                echo "<td>" . $row['workflowid'] . "</td>";
+                echo "<td>" . $row['username'] . "</td>";
+                echo "<td>" . $row['titre'] . "</td>";
+                echo "<td>" . $row['date_emprunt'] . "</td>";
+                echo "<td>" . $row['date_retour'] . "</td>";
+                echo "</tr>";
+            }
+        } else {
+            echo "<tr><td colspan='3'>No results found</td></tr>";
+        }
+                      ?>
                       </tbody>
                     </table>
                   </div>
