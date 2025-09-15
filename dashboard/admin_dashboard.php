@@ -542,28 +542,12 @@ include 'displayadminname.php';
                         <?php
                         //include '../connectdb.php';
                         // Number of records per page
-$limit = 3;
-
-// Get the current page number from URL, default = 1
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($page < 1) $page = 1;
-
-// Calculate the starting record
-$offset = ($page - 1) * $limit;
-
-// Get total records
-$result_count = mysqli_query($conn, "SELECT COUNT(*) AS total FROM theme");
-$row_count = mysqli_fetch_assoc($result_count);
-$total_records = $row_count['total'];
-
-// Calculate total pages
-$total_pages = ceil($total_records / $limit);
+                        
+                            
 
 
 
-
-
-                        $sql = "SELECT theme.id, theme.designation FROM theme  LIMIT $offset, $limit";
+                        $sql = "SELECT theme.id, theme.designation FROM theme  ";
                         $result = mysqli_query($conn, $sql);
                         
         if ($result && mysqli_num_rows($result) > 0) {
@@ -582,23 +566,7 @@ $total_pages = ceil($total_records / $limit);
                       </tbody>
                     </table>
                   </div>
-                  <div class="pagination">
-    <?php
-    if ($page > 1) {
-        echo "<a  href='?page=".($page-1)."' class='page-link'>&laquo; Prev</a>";
-    }
-
-    for ($i = 1; $i <= $total_pages; $i++) {
-        $active = ($i == $page) ? "class=' page-link active'" : "";
-        echo "<a $active class='page-link' href='?page=$i'>$i</a>";
-    }
-
-    if ($page < $total_pages) {
-
-        echo "<a class='page-link' href='?page=".($page+1)."'>Next &raquo;</a>";
-    }
-    ?>
-</div>
+                  
                   <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
@@ -637,29 +605,11 @@ $total_pages = ceil($total_records / $limit);
                       
                         //include '../connectdb.php';
                         // Number of records per page
-$limit = 3;
-
-// Get the current page number from URL, default = 1
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($page < 1) $page = 1;
-
-// Calculate the starting record
-$offset = ($page - 1) * $limit;
-
-// Get total records
-$result_count = mysqli_query($conn, "SELECT COUNT(*) AS total FROM dossier");
-$row_count = mysqli_fetch_assoc($result_count);
-$total_records = $row_count['total'];
-
-// Calculate total pages
-$total_pages = ceil($total_records / $limit);
-
-
                         $sql = "SELECT dossier.id AS dossierid, dossier.titre_dossier, dossier.id_theme, theme.id, theme.designation
                         FROM dossier 
                         join theme
                         on dossier.id_theme=theme.id
-                        LIMIT $offset, $limit";
+                        ";
                         $result = mysqli_query($conn, $sql);
                          if ($result && mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
@@ -675,22 +625,6 @@ $total_pages = ceil($total_records / $limit);
                         ?>
                       </tbody>
                     </table>
-                    <div class="pagination">
-    <?php
-    if ($page > 1) {
-        echo "<a href='?page=".($page-1)."'>&laquo; Prev</a>";
-    }
-
-    for ($i = 1; $i <= $total_pages; $i++) {
-        $active = ($i == $page) ? "class='active'" : "";
-        echo "<a $active href='?page=$i'>$i</a>";
-    }
-
-    if ($page < $total_pages) {
-        echo "<a href='?page=".($page+1)."'>Next &raquo;</a>";
-    }
-    ?>
-</div>
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -707,13 +641,7 @@ $total_pages = ceil($total_records / $limit);
                   <div class="card-header">
                     <h3 class="card-title">Documents</h3>
                     <div class="card-tools">
-                      <ul class="pagination pagination-sm float-end">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                      </ul>
+                     <!-- search bar -->
                     </div>
                   </div>
                   <!-- /.card-header -->
@@ -731,31 +659,13 @@ $total_pages = ceil($total_records / $limit);
                       </thead>
                       <tbody>
                        <?php
-                       //include "../connectdb.php";
-                       $limit = 3;
-
-// Get the current page number from URL, default = 1
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($page < 1) $page = 1;
-
-// Calculate the starting record
-$offset = ($page - 1) * $limit;
-
-// Get total records
-$result_count = mysqli_query($conn, "SELECT COUNT(*) AS total FROM document");
-$row_count = mysqli_fetch_assoc($result_count);
-$total_records = $row_count['total'];
-
-// Calculate total pages
-$total_pages = ceil($total_records / $limit);
-
 
                        $sql = "SELECT document.id AS documentid, 
                        document.titre, document.date_edition, dossier.titre_dossier, theme.designation, document.disponible
 FROM document 
 join dossier on document.id_dossier=dossier.id
 join theme on theme.id=dossier.id_theme
-LIMIT $offset, $limit";
+";
 $result = mysqli_query($conn, $sql);
  if ($result && mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
@@ -778,22 +688,7 @@ $result = mysqli_query($conn, $sql);
                     </table>
                   </div>
                   <!-- /.card-body -->
-                <div class="pagination">
-    <?php
-    if ($page > 1) {
-        echo "<a href='?page=".($page-1)."'>&laquo; Prev</a>";
-    }
-
-    for ($i = 1; $i <= $total_pages; $i++) {
-        $active = ($i == $page) ? "class='active'" : "";
-        echo "<a $active href='?page=$i'>$i</a>";
-    }
-
-    if ($page < $total_pages) {
-        echo "<a href='?page=".($page+1)."'>Next &raquo;</a>";
-    }
-    ?>
-</div>
+              
                 </div>
                 <!-- /.card -->
                 
@@ -822,24 +717,6 @@ $result = mysqli_query($conn, $sql);
                       <tbody>
                       <?php
                       // Number of records per page
-$limit = 5;
-
-// Get the current page number from URL, default = 1
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-if ($page < 1) $page = 1;
-
-// Calculate the starting record
-$offset = ($page - 1) * $limit;
-
-// Get total records
-$result_count = mysqli_query($conn, "SELECT COUNT(*) AS total FROM users");
-$row_count = mysqli_fetch_assoc($result_count);
-$total_records = $row_count['total'];
-
-// Calculate total pages
-$total_pages = ceil($total_records / $limit);
-
-                      //include '../connectdb.php';
                       $sql = "
   SELECT users.id AS user_id,
          users.username AS user_nom,
@@ -848,7 +725,7 @@ $total_pages = ceil($total_records / $limit);
     FROM users
     
     ORDER BY user_id ASC
-LIMIT $offset, $limit";
+";
 $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_array($result)):
                       ?>
@@ -865,22 +742,7 @@ while ($row = mysqli_fetch_array($result)):
                     </table>
                   </div>
                   <!-- /.card-body -->
-                  <div class="pagination">
-    <?php
-    if ($page > 1) {
-        echo "<a href='?page=".($page-1)."'>&laquo; Prev</a>";
-    }
-
-    for ($i = 1; $i <= $total_pages; $i++) {
-        $active = ($i == $page) ? "class='active'" : "";
-        echo "<a $active href='?page=$i'>$i</a>";
-    }
-
-    if ($page < $total_pages) {
-        echo "<a href='?page=".($page+1)."'>Next &raquo;</a>";
-    }
-    ?>
-</div> 
+                 
                 </div>
                 <!-- /.card -->
                 
