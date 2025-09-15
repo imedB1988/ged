@@ -542,12 +542,17 @@ include 'displayadminname.php';
                         <?php
                         //include '../connectdb.php';
                         // Number of records per page
-                        
-                            
+                        $limit = 2; // records per page
+                        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+                        $start = ($page - 1) * $limit;
+                            $result = mysqli_query($conn, "SELECT COUNT(*) AS total FROM theme");
+                            $row = mysqli_fetch_assoc($result);
+                            $total_records = $row['total'];
+                            $total_pages = ceil($total_records / $limit);
 
 
 
-                        $sql = "SELECT theme.id, theme.designation FROM theme  ";
+                        $sql = "SELECT theme.id, theme.designation FROM theme LIMIT $start, $limit ";
                         $result = mysqli_query($conn, $sql);
                         
         if ($result && mysqli_num_rows($result) > 0) {
@@ -565,6 +570,11 @@ include 'displayadminname.php';
                         ?>
                       </tbody>
                     </table>
+                    <ul class="pagination">
+    <?php for($i = 1; $i <= $total_pages; $i++) { ?>
+        <li><a href="?page=<?= $i ?>" class="<?= ($i == $page) ? 'active' : '' ?>"><?= $i ?></a></li>
+    <?php } ?>
+</ul>
                   </div>
                   
                   <!-- /.card-body -->
