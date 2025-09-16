@@ -321,6 +321,7 @@ include 'displayadminname.php';
 
                     ?></h3>
                     <p>Themes</p>
+                    
                   </div>
                   <svg
                     class="small-box-icon"
@@ -336,7 +337,7 @@ include 'displayadminname.php';
                     href="../administrateur/theme/affichage.php"
                     class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover"
                   >
-                    En savoir plus <i class="bi bi-link-45deg"></i>
+                    Gérer <i class="bi bi-link-45deg"></i>
                   </a>
                 </div>
                 <!--end::Small Box Widget 1-->
@@ -375,7 +376,7 @@ include 'displayadminname.php';
                     href="../administrateur/dossier/affichage.php"
                     class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover"
                   >
-                    En savoir plus <i class="bi bi-link-45deg"></i>
+                    Gérer <i class="bi bi-link-45deg"></i>
                   </a>
                 </div>
                 <!--end::Small Box Widget 2-->
@@ -418,7 +419,7 @@ include 'displayadminname.php';
                     href="../administrateur/document/affichage.php"
                     class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover"
                   >
-                    En savoir plus <i class="bi bi-link-45deg"></i>
+                    Gérer <i class="bi bi-link-45deg"></i>
                   </a>
                 </div>
                 <!--end::Small Box Widget 4-->
@@ -458,7 +459,7 @@ include 'displayadminname.php';
                     href="../administrateur/user/affichage.php"
                     class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover"
                   >
-                    En savoir plus <i class="bi bi-link-45deg"></i>
+                    Gérer <i class="bi bi-link-45deg"></i>
                   </a>
                 </div>
                 <!--end::Small Box Widget 3-->
@@ -497,7 +498,7 @@ include 'displayadminname.php';
                     href="../administrateur/workflow/affichage.php"
                     class="small-box-footer link-dark link-underline-opacity-0 link-underline-opacity-50-hover"
                   >
-                    En savoir plus <i class="bi bi-link-45deg"></i>
+                    Gérer <i class="bi bi-link-45deg"></i>
                   </a>
                 </div>
                 <!--end::Small Box Widget 3-->
@@ -521,38 +522,64 @@ include 'displayadminname.php';
             <div class="row">
               <div class="col-md-6">
                 <div class="card mb-4">
-                  <div class="card-header">
-                    <h3 class="card-title">Themes</h3>
+                 <?php
+                        //include '../connectdb.php';
+                        // Number of records per page
+$records_per_page = 2;
+
+// Get total records
+$sql = "SELECT COUNT(*) AS total FROM theme"; 
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+$total_records = $row['total'];
+
+// Total pages
+$total_pages = ceil($total_records / $records_per_page);
+
+// Get current page from dropdown
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+if ($page > $total_pages) $page = $total_pages;
+
+// Offset
+$start_from = ($page - 1) * $records_per_page;
+?>  
+                <div class="card-header">
+                    <h3 class="card-title">Themes </h3>
+                    
                     <div class="card-tools">
-                      <!-- search bar -->
+                       <?php 
+                  // Dropdown pagination
+echo "<form method='get'>";
+echo "Page: <select name='page' onchange='this.form.submit()'>";
+for ($i = 1; $i <= $total_pages; $i++) {
+    $selected = ($i == $page) ? "selected" : "";
+    echo "<option value='$i' $selected>$i</option>";
+}
+echo "</select>";
+echo "</form>";
+                  ?>
+
+                  
                     </div>
+                        
                   </div>
                   <!-- /.card-header -->
                   <div class="card-body p-0">
-                    <table class="table">
+                      
+                    <table class="table" >
                       <thead>
                         <tr>
+                        
                           <th style="width: 10px">#</th>
                           <th>Theme</th>
-                         
                         </tr>
                       </thead>
                       <tbody>
                         <!-- <tr class="align-middle"> -->
-                        <?php
-                        //include '../connectdb.php';
-                        // Number of records per page
-                        $limit = 2; // records per page
-                        $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-                        $start = ($page - 1) * $limit;
-                            $result = mysqli_query($conn, "SELECT COUNT(*) AS total FROM theme");
-                            $row = mysqli_fetch_assoc($result);
-                            $total_records = $row['total'];
-                            $total_pages = ceil($total_records / $limit);
-
-
-
-                        $sql = "SELECT theme.id, theme.designation FROM theme LIMIT $start, $limit ";
+                     <?php
+// Fetch data
+$sql = "SELECT * FROM theme LIMIT $start_from, $records_per_page";
                         $result = mysqli_query($conn, $sql);
                         
         if ($result && mysqli_num_rows($result) > 0) {
@@ -570,11 +597,6 @@ include 'displayadminname.php';
                         ?>
                       </tbody>
                     </table>
-                    <ul class="pagination">
-    <?php for($i = 1; $i <= $total_pages; $i++) { ?>
-        <li><a href="?page=<?= $i ?>" class="<?= ($i == $page) ? 'active' : '' ?>"><?= $i ?></a></li>
-    <?php } ?>
-</ul>
                   </div>
                   
                   <!-- /.card-body -->
@@ -585,16 +607,42 @@ include 'displayadminname.php';
               <!-- /.col -->
 <div class="col-md-6">
                 <div class="card mb-4">
+                   <?php
+                        //include '../connectdb.php';
+                        // Number of records per page
+$records_per_page = 2;
+
+// Get total records
+$sql = "SELECT COUNT(*) AS total FROM dossier"; 
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+$total_records = $row['total'];
+
+// Total pages
+$total_pages = ceil($total_records / $records_per_page);
+
+// Get current page from dropdown
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+if ($page > $total_pages) $page = $total_pages;
+
+// Offset
+$start_from = ($page - 1) * $records_per_page;
+?>
                   <div class="card-header">
                     <h3 class="card-title">Dossiers</h3>
                     <div class="card-tools">
-                      <ul class="pagination pagination-sm float-end">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                      </ul>
+                       <?php 
+                  // Dropdown pagination
+echo "<form method='get'>";
+echo "Page: <select name='page' onchange='this.form.submit()'>";
+for ($i = 1; $i <= $total_pages; $i++) {
+    $selected = ($i == $page) ? "selected" : "";
+    echo "<option value='$i' $selected>$i</option>";
+}
+echo "</select>";
+echo "</form>";
+                  ?>
                     </div>
                   </div>
                   <!-- /.card-header -->
@@ -615,11 +663,14 @@ include 'displayadminname.php';
                       
                         //include '../connectdb.php';
                         // Number of records per page
+
+
+
                         $sql = "SELECT dossier.id AS dossierid, dossier.titre_dossier, dossier.id_theme, theme.id, theme.designation
                         FROM dossier 
                         join theme
                         on dossier.id_theme=theme.id
-                        ";
+                       ";
                         $result = mysqli_query($conn, $sql);
                          if ($result && mysqli_num_rows($result) > 0) {
             while ($row = mysqli_fetch_array($result)) {
@@ -635,6 +686,7 @@ include 'displayadminname.php';
                         ?>
                       </tbody>
                     </table>
+                   
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -648,10 +700,42 @@ include 'displayadminname.php';
 <div class="row">
               <div class="col-md-6">
                 <div class="card mb-4">
+                   <?php
+                        //include '../connectdb.php';
+                        // Number of records per page
+$records_per_page = 2;
+
+// Get total records
+$sql = "SELECT COUNT(*) AS total FROM document"; 
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+$total_records = $row['total'];
+
+// Total pages
+$total_pages = ceil($total_records / $records_per_page);
+
+// Get current page from dropdown
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+if ($page > $total_pages) $page = $total_pages;
+
+// Offset
+$start_from = ($page - 1) * $records_per_page;
+?>
                   <div class="card-header">
                     <h3 class="card-title">Documents</h3>
                     <div class="card-tools">
-                     <!-- search bar -->
+                       <?php 
+                  // Dropdown pagination
+echo "<form method='get'>";
+echo "Page: <select name='page' onchange='this.form.submit()'>";
+for ($i = 1; $i <= $total_pages; $i++) {
+    $selected = ($i == $page) ? "selected" : "";
+    echo "<option value='$i' $selected>$i</option>";
+}
+echo "</select>";
+echo "</form>";
+                  ?>
                     </div>
                   </div>
                   <!-- /.card-header -->
@@ -669,6 +753,8 @@ include 'displayadminname.php';
                       </thead>
                       <tbody>
                        <?php
+                       //include "../connectdb.php";
+                    
 
                        $sql = "SELECT document.id AS documentid, 
                        document.titre, document.date_edition, dossier.titre_dossier, theme.designation, document.disponible
@@ -698,7 +784,7 @@ $result = mysqli_query($conn, $sql);
                     </table>
                   </div>
                   <!-- /.card-body -->
-              
+                
                 </div>
                 <!-- /.card -->
                 
@@ -706,10 +792,42 @@ $result = mysqli_query($conn, $sql);
               <!-- /.col -->
 <div class="col-md-6">
                 <div class="card mb-4">
+                   <?php
+                        //include '../connectdb.php';
+                        // Number of records per page
+$records_per_page = 2;
+
+// Get total records
+$sql = "SELECT COUNT(*) AS total FROM users"; 
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+$total_records = $row['total'];
+
+// Total pages
+$total_pages = ceil($total_records / $records_per_page);
+
+// Get current page from dropdown
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+if ($page > $total_pages) $page = $total_pages;
+
+// Offset
+$start_from = ($page - 1) * $records_per_page;
+?>
                   <div class="card-header">
                     <h3 class="card-title">Utilisateurs</h3>
                     <div class="card-tools">
-                     
+                       <?php 
+                  // Dropdown pagination
+echo "<form method='get'>";
+echo "Page: <select name='page' onchange='this.form.submit()'>";
+for ($i = 1; $i <= $total_pages; $i++) {
+    $selected = ($i == $page) ? "selected" : "";
+    echo "<option value='$i' $selected>$i</option>";
+}
+echo "</select>";
+echo "</form>";
+                  ?>
                   
                     </div>
                   </div>
@@ -726,7 +844,7 @@ $result = mysqli_query($conn, $sql);
                       </thead>
                       <tbody>
                       <?php
-                      // Number of records per page
+                      //include '../connectdb.php';
                       $sql = "
   SELECT users.id AS user_id,
          users.username AS user_nom,
@@ -734,8 +852,7 @@ $result = mysqli_query($conn, $sql);
         users.role
     FROM users
     
-    ORDER BY user_id ASC
-";
+    ORDER BY user_id ASC";
 $result = mysqli_query($conn, $sql);
 while ($row = mysqli_fetch_array($result)):
                       ?>
@@ -752,7 +869,7 @@ while ($row = mysqli_fetch_array($result)):
                     </table>
                   </div>
                   <!-- /.card-body -->
-                 
+                  <
                 </div>
                 <!-- /.card -->
                 
@@ -765,16 +882,43 @@ while ($row = mysqli_fetch_array($result)):
                             <!-- /.col -->
 <div class="col-md-6">
                 <div class="card mb-4">
+                   <?php
+                        //include '../connectdb.php';
+                        // Number of records per page
+$records_per_page = 2;
+
+// Get total records
+$sql = "SELECT COUNT(*) AS total FROM workflow"; 
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+$total_records = $row['total'];
+
+// Total pages
+$total_pages = ceil($total_records / $records_per_page);
+
+// Get current page from dropdown
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+if ($page < 1) $page = 1;
+if ($page > $total_pages) $page = $total_pages;
+
+// Offset
+$start_from = ($page - 1) * $records_per_page;
+?>
                   <div class="card-header">
                     <h3 class="card-title">Emprunts</h3>
                     <div class="card-tools">
-                      <ul class="pagination pagination-sm float-end">
-                        <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
-                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item"><a class="page-link" href="#">&raquo;</a></li>
-                      </ul>
+                       <?php 
+                       
+                  // Dropdown pagination
+echo "<form method='get'>";
+echo "Page: <select name='page' onchange='this.form.submit()'>";
+for ($i = 1; $i <= $total_pages; $i++) {
+    $selected = ($i == $page) ? "selected" : "";
+    echo "<option value='$i' $selected>$i</option>";
+}
+echo "</select>";
+echo "</form>";
+                  ?>
                     </div>
                   </div>
                   <!-- /.card-header -->
