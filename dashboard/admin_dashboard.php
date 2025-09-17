@@ -220,7 +220,7 @@ include 'displayadminname.php';
               </li>
               
               <li class="nav-item">
-                <a href="#" class="nav-link ">
+                <a href="../administrateur/theme/affichage.php" class="nav-link ">
                   <i class="nav-icon bi bi-ui-checks-grid"></i>
                   <p>
                     Thèmes 
@@ -229,7 +229,7 @@ include 'displayadminname.php';
                 
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link ">
+                <a href="../administrateur/dossier/affichage.php" class="nav-link ">
                   <i class="nav-icon bi bi-folder"></i>
                   <p>
                     Dossiers 
@@ -238,7 +238,7 @@ include 'displayadminname.php';
                 
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link ">
+                <a href="../administrateur/document/affichage.php" class="nav-link ">
                   <i class="nav-icon bi bi-file-earmark-fill"></i>
                   <p>
                     Documents
@@ -247,7 +247,7 @@ include 'displayadminname.php';
                 
               </li>
               <li class="nav-item">
-                <a href="#" class="nav-link ">
+                <a href="../administrateur/user/affichage.php" class="nav-link ">
                   <i class="nav-icon bi bi-person-square"></i>
                   <p>
                     Utilisateurs 
@@ -257,7 +257,7 @@ include 'displayadminname.php';
               </li>
 
                <li class="nav-item">
-                <a href="#" class="nav-link ">
+                <a href="../administrateur/workflow/affichage.php" class="nav-link ">
                   <i class="nav-icon bi bi-arrow-down-up"></i>
                   <p>
                     Emprunts 
