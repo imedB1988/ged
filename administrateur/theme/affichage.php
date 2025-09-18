@@ -3,6 +3,7 @@
 <?php include 'components/scriptsjs.php'?>
 <?php include 'components/footer.php'?>
 
+
 <div >
     <?php include 'components/appcontentheader.php'?>
     <?php
@@ -52,7 +53,7 @@ $result = mysqli_query($conn, $sql);
             <button type="submit" class="btn btn-dark">Rechercher</button>  
         </div>
     </form>
-<a href="insertion/insertform.php"  class="form-control btn btn-dark  btn-block mb-4">Ajouter un thème</a>
+<a href="insertion/insertform.php"  class="form-control btn btn-dark  btn-block mb-4" onclick="loadPage('insertion/insertform.php')">Ajouter un thème</a>
     
     <!-- Users Table -->
     <div class="card">
@@ -71,7 +72,7 @@ $result = mysqli_query($conn, $sql);
                                 <td><?php echo $row['designation']; ?></td>
                                 <td>
                                 <a href="MAJ/edit.php?id=<?= $row['id'] ?>" class="btn btn-lg btn-warning">Modifier</a>
-                                <a href="supression/delete.php?id=<?= $row['id'] ?>" class="btn btn-lg btn-danger" onclick="return confirm('Voulez-vous supprimer cet élément?')">Supprimer</a>
+                                <a href="delete.php?id=<?= $row['id'] ?>" class="btn btn-lg btn-danger">Supprimer</a>
                                 </td>
                             </tr>
                         <?php endwhile; ?>
@@ -82,13 +83,37 @@ $result = mysqli_query($conn, $sql);
             </table>
         </div>
     </div>
+                        <!-- begin modal delete -->
+                         <!-- Modal -->
+<div class="modal fade" id="msgModal" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header <?= ($status=='success'?'bg-success':'bg-danger') ?> text-white">
+        <h5 class="modal-title"><?= ucfirst($status) ?></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <?= $message ?>
+      </div>
+    </div>
+  </div>
+</div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<?php if (!empty($message)) { ?>
+<script>
+    var myModal = new bootstrap.Modal(document.getElementById('msgModal'));
+    myModal.show();
+</script>
+<?php } ?>
+                         <!-- end modal delete -->
     <!-- Pagination -->
     <nav class="mt-3 " >
         <ul class="pagination justify-content-center  ">
             <!-- Previous button -->
             <li class="page-item">
-                <a class="page-link" href="?search=<?php echo $search; ?>&page=<?php echo $page-1; ?>">Previous</a>
+                <a class="page-link" href="?search=<?php echo $search; ?>&page=<?php echo $page; ?>">Previous</a>
             </li>
 
             <!-- Page numbers -->
