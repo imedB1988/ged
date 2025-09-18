@@ -1,5 +1,5 @@
 <?php
-    include '../../connectdb.php';
+    include '../../../connectdb.php';
 
 if (isset($_POST['submit'])) {
     $nom = $_POST['designation'];

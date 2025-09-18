@@ -1,6 +1,6 @@
 <?php
 // Database connection
-include '../../connectdb.php';
+include '../../../connectdb.php';
 
 $sql = "SELECT id, designation FROM theme";
 $result = mysqli_query($conn, $sql);
