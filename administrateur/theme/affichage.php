@@ -88,14 +88,14 @@ $result = mysqli_query($conn, $sql);
         <div class="card-body p-0">
             <table class="table">
                 <thead>
-                    <tr>
+                    <tr class="text-center">
                         <th>ID</th><th>Theme</th><th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php if ($total_records > 0): ?>
                         <?php while ($row = mysqli_fetch_assoc($result)): ?>
-                            <tr>
+                            <tr class="text-center">
                                 <td><?php echo $row['id']; ?></td>
                                 <td><?php echo $row['designation']; ?></td>
                                 <td>
@@ -106,7 +106,7 @@ $result = mysqli_query($conn, $sql);
                                   <!-- Delete Button -->
           
            <div class="d-grid gap-2 col-6 mx-auto">
-  <button type="button" class="btn btn-warning  btn-sm editBtn"
+  <button type="button" class="btn btn-dark  editBtn"
                         data-id="<?= $row['id'] ?>"
                         data-name="<?= $row['designation'] ?>"
                      "
@@ -114,7 +114,7 @@ $result = mysqli_query($conn, $sql);
                         Modifier
                     </button>
     <button 
-              class="btn btn-danger   deleteBtn" 
+              class="btn btn-dark   deleteBtn" 
               data-id="<?= $row['id']; ?>" 
               data-bs-toggle="modal" 
               data-bs-target="#deleteModal">
