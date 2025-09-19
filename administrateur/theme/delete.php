@@ -1,17 +1,15 @@
 <?php
-include '../../connectdb.php';
-if (isset($_GET['id'])) {
-    $id = (int) $_GET['id']; // convert to int for security
+include "../../connectdb.php";
 
-    // 3. Delete query
-    $sql = "DELETE FROM theme WHERE id = $id";
+if(isset($_POST['deleteBtn'])){
+    $id = mysqli_real_escape_string($conn, $_POST['delete_id']);
 
-    if (mysqli_query($conn, $sql)) {
-        echo "Record deleted successfully!";
+    $sql = "DELETE FROM theme WHERE id='$id'";
+    if(mysqli_query($conn, $sql)){
+        header("Location: index.php?msg=deleted");
+        exit();
     } else {
         echo "Error deleting record: " . mysqli_error($conn);
     }
-} else {
-    echo "No ID provided!";
 }
 ?>

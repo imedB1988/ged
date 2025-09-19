@@ -1,34 +1,16 @@
-<?php include "../../../connectdb.php"; ?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Edit User</title>
-</head>
-<body>
-    <h2>Edit User</h2>
-
 <?php
-$id = $_GET['id'];
-$result = mysqli_query($conn, "SELECT * FROM theme WHERE id=$id");
-$user = mysqli_fetch_assoc($result);
-?>
+$conn = mysqli_connect("localhost", "root", "", "ged");
 
-<form method="POST">
-    Name: <input type="text" name="designation" value="<?= $user['designation'] ?>" required><br><br>
-    <button type="submit" name="update">Update</button>
-</form>
-<a href="../theme/affichage.php">Back</a>
-
-<?php
 if (isset($_POST['update'])) {
+    $id    = $_POST['id'];
     $name  = $_POST['designation'];
-   
-    $sql = "UPDATE theme SET designation='$name' WHERE id=$id";
-    mysqli_query($conn, $sql);
+  
 
-    header("Location: ../affichage.php");
+    $query = "UPDATE theme SET designation='$name' WHERE id=$id";
+    if (mysqli_query($conn, $query)) {
+        header("Location: ../affichage.php");
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
 }
 ?>
-</body>
-</html>
