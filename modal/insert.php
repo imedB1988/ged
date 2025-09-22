@@ -1,28 +1,26 @@
 <?php
-    include '../../../connectdb.php';
+$conn = mysqli_connect("localhost", "root", "", "ged");
 
+if (!$conn) {
+    die("Connection failed: " . mysqli_connect_error());
+}
 
-    $message = "";
+$message = "";
 $alertType = ""; // success or danger
 
-if (isset($_POST['submit'])) {
-    $nom = $_POST['designation'];
-    
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = mysqli_real_escape_string($conn, $_POST['designation']);
 
-    $insert = "INSERT INTO theme (designation) VALUES ('$nom')";
-    if (mysqli_query($conn, $insert)) {
-         $message = "Record inserted successfully!";
+    $sql = "INSERT INTO theme (designation) VALUES ('$name')";
+    if (mysqli_query($conn, $sql)) {
+        $message = "Record inserted successfully!";
         $alertType = "success";
     } else {
         $message = "Error: " . mysqli_error($conn);
         $alertType = "danger";
     }
 }
-
-mysqli_close($conn);
 ?>
-
-
 <!DOCTYPE html>
 <html>
 <head>

@@ -1,3 +1,12 @@
+<?php include 'components/header.php'?>
+<?php include 'components/side_bar.php'?>
+<?php include 'components/scriptsjs.php'?>
+<?php include 'components/footer.php'?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<div >
+    <?php include 'components/appcontentheader.php'?>
+    
 <?php
 // 1. Connect to MySQL
 $conn = mysqli_connect("localhost", "root", "", "ged");

@@ -60,6 +60,7 @@ $result = mysqli_query($conn, $sql);
 <div class="modal fade" id="insertModal" tabindex="-1">
   <div class="modal-dialog">
     <form method="POST" action="insertion/insert.php">
+      
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">Ajouter un thème</h5>
@@ -78,10 +79,39 @@ $result = mysqli_query($conn, $sql);
       </div>
     </form>
   </div>
+
+   <div class="modal fade" id="messageModal" tabindex="-1" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-<?php echo $alertType; ?> text-white">
+            <h5 class="modal-title"><?php echo ucfirst($alertType); ?></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+          </div>
+          <div class="modal-body">
+            <?php echo $message; ?>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-<?php echo $alertType; ?>" data-bs-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <?php if (!empty($message)) : ?>
+    <script>
+        var myModal = new bootstrap.Modal(document.getElementById('messageModal'));
+        myModal.show();
+    </script>
+    <?php endif; ?>
 </div>
 
 
 <!-- End Insert Modal -->
+
+
 
     <!-- Users Table -->
     <div class="card">
